@@ -1,0 +1,42 @@
+# Firestore Rules Reference
+
+## Current Issue
+Employee getting "Missing or insufficient permissions" when accessing job details page.
+
+## Root Cause Analysis
+1. Employee jobs page queries jobs collection successfully
+2. Employee can see jobs in list/map view
+3. But job-details/[id].tsx fails with permission error when accessing specific job document
+
+## Jobs Collection Access Pattern
+From (employee-tabs)/jobs.tsx:
+- Queries entire jobs collection: `query(collection(db, "jobs"))`
+- Filters client-side for assigned jobs
+- Uses these fields to determine assignment:
+  - `job.assignedTo === auth.currentUser?.uid` (legacy)
+  - `job.assignedEmployees` array with `emp.id === auth.currentUser?.uid`
+  - `job.tasks` with assigned employees
+
+## Current Rules Problem
+The current Firestore rules allow employees to see ALL jobs (not role-based):
+```
+allow read: if request.auth != null && (
+  request.auth.uid == resource.data.clientId ||
+  exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+  get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userType in ['admin', 'employee']
+);
+```
+
+This gives employees access to all jobs, but the job-details page might be accessing additional collections.
+
+## Required Fix
+1. Keep current broad access for now (since app filters client-side)
+2. Add missing collections that job-details page accesses
+3. Later implement proper role-based filtering
+
+## Collections Accessed by Job Details Page
+- jobs/{jobId} - main job document
+- Potentially: jobAttachments, taskCompletions, workRequests
+
+## Missing Rules
+Need to add rules for collections that job-details page might access.

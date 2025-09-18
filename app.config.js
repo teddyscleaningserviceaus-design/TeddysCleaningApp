@@ -1,0 +1,155 @@
+import 'dotenv/config';
+
+export default {
+  expo: {
+    name: "Teddy's Cleaning",
+    slug: "teddys-cleaning-app",
+    version: "1.0.0",
+    scheme: "teddys-cleaning-app",
+    orientation: "portrait",
+    platforms: ["ios", "android", "web"],
+    description: "Professional cleaning services app with smart booking, real-time tracking, and eco-friendly solutions.",
+    keywords: ["cleaning", "services", "booking", "professional", "eco-friendly"],
+    privacy: "public",
+    extra: {
+      eas: {
+        projectId: "c462a4e2-94d4-403a-9f68-1efb0fbb3d98"
+      },
+      // Environment variables
+      firebaseApiKey: process.env.FIREBASE_API_KEY,
+      firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
+      firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
+      stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDele-TeUwLAx22J_s0W-9X6LBCGcqlwZ4"
+    },
+    icon: "./assets/icon.png",
+    userInterfaceStyle: "light",
+    splash: {
+      image: "./assets/splash.png",
+      resizeMode: "contain",
+      backgroundColor: "#4facfe"
+    },
+    assetBundlePatterns: [
+      "**/*"
+    ],
+    permissions: [
+      "CAMERA",
+      "CAMERA_ROLL", 
+      "LOCATION",
+      "NOTIFICATIONS",
+      "SYSTEM_ALERT_WINDOW",
+      "VIBRATE",
+      "READ_EXTERNAL_STORAGE",
+      "WRITE_EXTERNAL_STORAGE"
+    ],
+    ios: {
+      supportsTablet: true,
+      bundleIdentifier: "com.teddyscleaning.app",
+      buildNumber: "1",
+      infoPlist: {
+        NSLocationWhenInUseUsageDescription: "This app uses location to find nearby cleaning services and provide accurate service estimates.",
+        NSLocationAlwaysAndWhenInUseUsageDescription: "This app uses location to track service progress and provide real-time updates.",
+        NSCameraUsageDescription: "This app uses camera to take photos for service documentation and quality assurance.",
+        NSPhotoLibraryUsageDescription: "This app accesses photo library to attach images to service requests and feedback.",
+        NSMicrophoneUsageDescription: "This app uses microphone for voice messages and customer support calls.",
+        NSContactsUsageDescription: "This app accesses contacts to easily share service details with family and friends.",
+        NSCalendarsUsageDescription: "This app accesses calendar to schedule cleaning appointments.",
+        NSRemindersUsageDescription: "This app creates reminders for upcoming cleaning appointments.",
+        CFBundleURLTypes: [
+          {
+            CFBundleURLName: "teddys-cleaning-app",
+            CFBundleURLSchemes: ["teddys-cleaning-app"]
+          }
+        ]
+      },
+      config: {
+        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDele-TeUwLAx22J_s0W-9X6LBCGcqlwZ4"
+      }
+    },
+    android: {
+      package: "com.teddyscleaning.app",
+      versionCode: 1,
+      adaptiveIcon: {
+        foregroundImage: "./assets/adaptive-icon.png",
+        backgroundColor: "#4facfe"
+      },
+      permissions: [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION", 
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED",
+        "WAKE_LOCK",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_WIFI_STATE"
+      ],
+      useNextNotificationsApi: true,
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDele-TeUwLAx22J_s0W-9X6LBCGcqlwZ4"
+        }
+      },
+      intentFilters: [
+        {
+          action: "VIEW",
+          autoVerify: true,
+          data: [
+            {
+              scheme: "https",
+              host: "teddyscleaning.com"
+            }
+          ],
+          category: ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    web: {
+      favicon: "./assets/favicon.png",
+      bundler: "metro",
+      config: {
+        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDele-TeUwLAx22J_s0W-9X6LBCGcqlwZ4"
+      }
+    },
+    plugins: [
+      "expo-router",
+      [
+        "expo-notifications",
+        {
+          icon: "./assets/icon.png",
+          color: "#4facfe",
+          defaultChannel: "default",
+          sounds: [
+            "./assets/sounds/Future.mp3"
+          ]
+        }
+      ],
+      [
+        "expo-location",
+        {
+          locationAlwaysAndWhenInUsePermission: "Allow Teddy's Cleaning to use your location to find nearby services and track cleaning progress.",
+          locationAlwaysPermission: "Allow Teddy's Cleaning to use your location to provide real-time service updates.",
+          locationWhenInUsePermission: "Allow Teddy's Cleaning to use your location to find nearby cleaning services.",
+          isIosBackgroundLocationEnabled: true,
+          isAndroidBackgroundLocationEnabled: true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          photosPermission: "The app accesses your photos to attach images to service requests and feedback.",
+          cameraPermission: "The app uses camera to take photos for service documentation."
+        }
+      ]
+    ],
+    updates: {
+      fallbackToCacheTimeout: 0,
+      url: "https://u.expo.dev/550e8400-e29b-41d4-a716-446655440000"
+    },
+    runtimeVersion: {
+      policy: "sdkVersion"
+    }
+  }
+};

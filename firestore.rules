@@ -1,0 +1,97 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - allow reading and querying for username checks, writing for own data
+    match /users/{userId} {
+      allow read, list: if true; // Allow reading and querying for username checks during login
+      allow write: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+    }
+    
+    // Clients can read/write their own data
+    match /clients/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Employees can read/write their own data and read all employees for messaging
+    match /employees/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null; // Allow employees to read other employees for messaging
+    }
+    
+    // Admins can read/write their own data
+    match /admins/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Bookings - temporary open access for development
+    match /bookings/{bookingId} {
+      allow read: if true; // Temporary for development
+      allow write: if request.auth != null;
+    }
+    
+    // Jobs - authenticated users can read/write, guests can create
+    match /jobs/{jobId} {
+      allow read: if true;
+      allow create: if true; // Allow guests to create jobs
+      allow write: if request.auth != null;
+      allow list: if request.auth != null; // Allow employees to list jobs
+    }
+    
+    // Messages - authenticated users can read/write/create/list (includes image messages)
+    match /messages/{messageId} {
+      allow read, write, create, list: if request.auth != null;
+    }
+    
+    // Conversations - authenticated users can read/write/create/list
+    match /conversations/{conversationId} {
+      allow read, write, create, list: if request.auth != null;
+    }
+    
+    // Guest conversations - allow unauthenticated access for guest support
+    match /guest-conversations/{conversationId} {
+      allow read, write, create, list: if true;
+    }
+    
+    // Guest messages - allow unauthenticated access for guest support
+    match /guest-messages/{messageId} {
+      allow read, write, create, list: if true;
+    }
+    
+    // Work requests
+    match /workRequests/{requestId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Guest bookings - allow creation and reading
+    match /guest-bookings/{bookingId} {
+      allow create, read: if true;
+      allow update, delete: if request.auth != null;
+    }
+    
+    // Guest messages - allow unauthenticated writes for guest support
+    match /guest-messages/{messageId} {
+      allow read, write, create, list: if true;
+    }
+    
+    // Audit entries - authenticated users can read/write
+    match /audit/{auditId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // News - authenticated users can read/write
+    match /news/{newsId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+// Firebase Storage rules for images
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Message images - allow authenticated users to upload and read
+    match /message-images/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

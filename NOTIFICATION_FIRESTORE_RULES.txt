@@ -1,0 +1,40 @@
+// Add these rules to your existing Firestore rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Jobs collection - allow clients to read their jobs and receive location updates
+    match /jobs/{jobId} {
+      // Clients can read their own jobs
+      allow read: if request.auth != null && 
+        (resource.data.clientId == request.auth.uid || 
+         resource.data.assignedTo == request.auth.uid);
+      
+      // Allow updates to cleaner location fields (for simulation/cleaner app)
+      allow update: if request.auth != null && 
+        (resource.data.clientId == request.auth.uid || 
+         resource.data.assignedTo == request.auth.uid) &&
+        // Only allow updates to specific fields
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['cleanerLocation', 'cleanerDistance', 'status', 'actualStartTime', 'updatedAt']);
+    }
+    
+    // Clients collection - allow push token updates
+    match /clients/{clientId} {
+      allow read, write: if request.auth != null && request.auth.uid == clientId;
+      
+      // Allow push token updates specifically
+      allow update: if request.auth != null && request.auth.uid == clientId &&
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['pushToken', 'updatedAt', 'settings']);
+    }
+    
+    // Employees collection (if cleaners need to update locations)
+    match /employees/{employeeId} {
+      allow read, write: if request.auth != null && request.auth.uid == employeeId;
+    }
+  }
+}
+
+// IMPORTANT: Merge these rules with your existing ones, don't replace everything!
