@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.gradle/
+build/
+*.pyc
+__pycache__/
+.expo/
+android/build/
+ios/build/
+.git/
+*.tmp
+*.temp
