@@ -1,4 +1,13 @@
-import 'dotenv/config';
+// Check if dotenv is available before importing, with a fallback
+let dotenvConfig = () => { };
+try {
+  // Attempt to load dotenv if installed
+  dotenvConfig = require('dotenv').config;
+  dotenvConfig();
+} catch (e) {
+  console.warn('dotenv not found or failed to load. Using default environment variables.');
+  // Fallback: Use process.env directly, assuming CI/CD provides them
+}
 
 export default {
   expo: {
@@ -15,7 +24,7 @@ export default {
       eas: {
         projectId: "c462a4e2-94d4-403a-9f68-1efb0fbb3d98"
       },
-      // Environment variables
+      // Environment variables with fallbacks
       firebaseApiKey: process.env.FIREBASE_API_KEY,
       firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
       firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
@@ -34,7 +43,7 @@ export default {
     ],
     permissions: [
       "CAMERA",
-      "CAMERA_ROLL", 
+      "CAMERA_ROLL",
       "LOCATION",
       "NOTIFICATIONS",
       "SYSTEM_ALERT_WINDOW",
@@ -68,14 +77,13 @@ export default {
     },
     android: {
       package: "com.teddyscleaning.app",
-      versionCode: 1,
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#4facfe"
       },
       permissions: [
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION", 
+        "ACCESS_FINE_LOCATION",
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE",
