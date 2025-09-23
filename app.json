@@ -5,9 +5,19 @@
     "version": "1.0.0",
     "scheme": "teddys-cleaning-app",
     "orientation": "portrait",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "description": "Professional cleaning services app with smart booking, real-time tracking, and eco-friendly solutions.",
-    "keywords": ["cleaning", "services", "booking", "professional", "eco-friendly"],
+    "keywords": [
+      "cleaning",
+      "services",
+      "booking",
+      "professional",
+      "eco-friendly"
+    ],
     "privacy": "public",
     "extra": {
       "eas": {
@@ -54,7 +64,6 @@
     },
     "android": {
       "package": "com.teddyscleaning.app",
-      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#4facfe"
