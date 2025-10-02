@@ -18,7 +18,6 @@ export default {
     orientation: "portrait",
     platforms: ["ios", "android", "web"],
     description: "Professional cleaning services app with smart booking, real-time tracking, and eco-friendly solutions.",
-    keywords: ["cleaning", "services", "booking", "professional", "eco-friendly"],
     privacy: "public",
     extra: {
       eas: {
@@ -29,9 +28,9 @@ export default {
       firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
       firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
       stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-      googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDele-TeUwLAx22J_s0W-9X6LBCGcqlwZ4"
+      googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
     },
-    icon: "./assets/icon.png",
+    icon: "./assets/favicon.png",
     userInterfaceStyle: "light",
     splash: {
       image: "./assets/splash.png",
@@ -41,29 +40,14 @@ export default {
     assetBundlePatterns: [
       "**/*"
     ],
-    permissions: [
-      "CAMERA",
-      "CAMERA_ROLL",
-      "LOCATION",
-      "NOTIFICATIONS",
-      "SYSTEM_ALERT_WINDOW",
-      "VIBRATE",
-      "READ_EXTERNAL_STORAGE",
-      "WRITE_EXTERNAL_STORAGE"
-    ],
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.teddyscleaning.app",
       buildNumber: "1",
       infoPlist: {
         NSLocationWhenInUseUsageDescription: "This app uses location to find nearby cleaning services and provide accurate service estimates.",
-        NSLocationAlwaysAndWhenInUseUsageDescription: "This app uses location to track service progress and provide real-time updates.",
         NSCameraUsageDescription: "This app uses camera to take photos for service documentation and quality assurance.",
         NSPhotoLibraryUsageDescription: "This app accesses photo library to attach images to service requests and feedback.",
-        NSMicrophoneUsageDescription: "This app uses microphone for voice messages and customer support calls.",
-        NSContactsUsageDescription: "This app accesses contacts to easily share service details with family and friends.",
-        NSCalendarsUsageDescription: "This app accesses calendar to schedule cleaning appointments.",
-        NSRemindersUsageDescription: "This app creates reminders for upcoming cleaning appointments.",
         CFBundleURLTypes: [
           {
             CFBundleURLName: "teddys-cleaning-app",
@@ -72,21 +56,19 @@ export default {
         ]
       },
       config: {
-        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDele-TeUwLAx22J_s0W-9X6LBCGcqlwZ4"
+        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
       }
     },
     android: {
       package: "com.teddyscleaning.app",
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
+        foregroundImage: "./assets/favicon.png",
         backgroundColor: "#4facfe"
       },
       permissions: [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
         "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE",
         "VIBRATE",
         "RECEIVE_BOOT_COMPLETED",
         "WAKE_LOCK",
@@ -94,10 +76,9 @@ export default {
         "ACCESS_NETWORK_STATE",
         "ACCESS_WIFI_STATE"
       ],
-      useNextNotificationsApi: true,
       config: {
         googleMaps: {
-          apiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDele-TeUwLAx22J_s0W-9X6LBCGcqlwZ4"
+          apiKey: process.env.GOOGLE_MAPS_API_KEY
         }
       },
       intentFilters: [
@@ -118,7 +99,7 @@ export default {
       favicon: "./assets/favicon.png",
       bundler: "metro",
       config: {
-        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || "AIzaSyDele-TeUwLAx22J_s0W-9X6LBCGcqlwZ4"
+        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
       }
     },
     plugins: [
@@ -137,11 +118,7 @@ export default {
       [
         "expo-location",
         {
-          locationAlwaysAndWhenInUsePermission: "Allow Teddy's Cleaning to use your location to find nearby services and track cleaning progress.",
-          locationAlwaysPermission: "Allow Teddy's Cleaning to use your location to provide real-time service updates.",
-          locationWhenInUsePermission: "Allow Teddy's Cleaning to use your location to find nearby cleaning services.",
-          isIosBackgroundLocationEnabled: true,
-          isAndroidBackgroundLocationEnabled: true
+          locationWhenInUsePermission: "Allow Teddy's Cleaning to use your location to find nearby cleaning services."
         }
       ],
       [
@@ -153,8 +130,7 @@ export default {
       ]
     ],
     updates: {
-      fallbackToCacheTimeout: 0,
-      url: "https://u.expo.dev/550e8400-e29b-41d4-a716-446655440000"
+      fallbackToCacheTimeout: 0
     },
     runtimeVersion: {
       policy: "sdkVersion"

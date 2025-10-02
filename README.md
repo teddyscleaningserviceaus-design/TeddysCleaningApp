@@ -48,3 +48,24 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+## Next steps for store readiness
+
+1. Add build-time secrets to EAS (no secrets are hardcoded anymore):
+   - eas secret:create --scope project --name GOOGLE_MAPS_API_KEY --value <your_key>
+   - If used by your app: eas secret:create --scope project --name FIREBASE_API_KEY --value <your_key>
+   - If used by your app: eas secret:create --scope project --name STRIPE_PUBLISHABLE_KEY --value <your_key>
+
+2. Validate config locally:
+   - npx expo-doctor
+
+3. Build internal previews and test on real devices:
+   - eas build -p android --profile preview
+   - eas build -p ios --profile preview
+
+4. Production builds and submission:
+   - eas build -p android --profile production
+   - eas build -p ios --profile production
+   - eas submit -p android --latest
+   - eas submit -p ios --latest

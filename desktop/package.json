@@ -1,0 +1,40 @@
+{
+  "name": "teddys-cleaning-desktop",
+  "version": "1.0.0",
+  "description": "Professional cleaning business management platform with robotics and space venture capabilities",
+  "main": "src/main/main.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:main\" \"npm run dev:renderer\"",
+    "dev:main": "electron src/main/main.js",
+    "dev:renderer": "vite",
+    "build": "vite build && electron-builder",
+    "build:main": "electron-builder",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "electron": "^28.0.0",
+    "express": "^4.18.2",
+    "rxjs": "^7.8.2",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "concurrently": "^8.2.2",
+    "electron-builder": "^24.9.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.teddyscleaning.desktop",
+    "productName": "Teddy's Cleaning Desktop",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "dist-renderer/**/*"
+    ]
+  }
+}
